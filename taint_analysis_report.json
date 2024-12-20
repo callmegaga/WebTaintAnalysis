@@ -1,0 +1,14 @@
+[
+  {
+    "type": "HTML Injection",
+    "content": "你输入的是: <script>alert('XSS')</script>"
+  },
+  {
+    "type": "API Call",
+    "url": "/echo?data=%3Cscript%3Ealert('XSS')%3C%2Fscript%3E"
+  },
+  {
+    "type": "HTML Injection",
+    "content": "API 返回: <script>alert('XSS')</script>"
+  }
+]

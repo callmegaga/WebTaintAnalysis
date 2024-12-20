@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Taint Analysis Report</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+		}
+		h1 {
+			color: #333;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 20px;
+		}
+		th, td {
+			border: 1px solid #ccc;
+			padding: 10px;
+			text-align: left;
+		}
+		th {
+			background-color: #f4f4f4;
+		}
+		.warning {
+			color: red;
+		}
+	</style>
+</head>
+<body>
+<h1>Taint Analysis Report</h1>
+<p>This report summarizes the findings from the taint analysis tool.</p>
+<table id="reportTable">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>Type</th>
+		<th>Details</th>
+	</tr>
+	</thead>
+	<tbody>
+	<!-- Dynamic rows will be inserted here -->
+	</tbody>
+</table>
+<script>
+	async function loadReport() {
+		try {
+			const response = await fetch('./taint_analysis_report.json');
+			const reportData = await response.json();
+
+			const tableBody = document.querySelector("#reportTable tbody");
+			reportData.forEach((log, index) => {
+				const row = document.createElement("tr");
+				row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${log.type}</td>
+                        <td class="${log.type === 'HTML Injection' ? 'warning' : ''}">${log.type === 'API Call' ? log.url : log.content}</td>
+                    `;
+				tableBody.appendChild(row);
+			});
+		} catch (err) {
+			console.error("Failed to load the report:", err);
+		}
+	}
+
+	loadReport();
+</script>
+</body>
+</html>
